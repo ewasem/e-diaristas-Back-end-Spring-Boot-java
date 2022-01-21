@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Diaristas</title>
-</head>
+<html th:replace="~{base :: template (~{::main})}">
 <body>
     <main>
         <h1>Lista de Diaristas</h1>
-        <table>
+        <table class="table">
             <head>
                 <tr>
                     <th>#</th>
@@ -26,12 +20,19 @@
                     <td th:text=${diarista.email}></td>
                     <td th:text=${diarista.estado}></td>
                     <td>
-                        <a href="#">Editar</a>
-                        <a href="#">Excluir</a>
+                        <a class="btn btn-sm btn-warning" href="#">Editar</a>
+                        <a 
+                            class="btn btn-sm btn-danger" 
+                            th:href="@{/admin/diaristas/{id}/excluir (id=${diarista.id})}"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')"
+                            >
+                            Excluir
+                        </a>
                     </td>
                 </tr>
             </body>
         </table>
+        <a class="btn btn-primary" th:href="@{/admin/diaristas/cadastrar}">Cadastrar Diarista</a>
     </main>
 </body>
 </html>

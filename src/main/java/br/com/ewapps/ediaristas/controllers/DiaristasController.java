@@ -3,6 +3,7 @@ package br.com.ewapps.ediaristas.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +36,13 @@ public class DiaristasController {
     @PostMapping("/cadastrar")
     public String cadstrar(Diarista diarista) {
         repositoty.save(diarista);
+        return "redirect:/admin/diaristas";
+    }
+
+    @GetMapping("/{id}/excluir")
+    public String excluir(@PathVariable Long id) {
+        repositoty.deleteById(id);
+
         return "redirect:/admin/diaristas";
     }
 }
