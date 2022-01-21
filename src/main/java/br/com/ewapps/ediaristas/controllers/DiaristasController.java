@@ -1,7 +1,10 @@
 package br.com.ewapps.ediaristas.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +37,15 @@ public class DiaristasController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadstrar(Diarista diarista) {
-        repositoty.save(diarista);
-        return "redirect:/admin/diaristas";
+    public String cadstrar(@Valid Diarista diarista, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/diaristas/form";
+        } else {
+            repositoty.save(diarista);
+            return "redirect:/admin/diaristas";
+        }
+        
+        
     }
 
     @GetMapping("/{id}/editar")
@@ -47,9 +56,14 @@ public class DiaristasController {
     }
 
     @PostMapping("/{id}/editar")
-    public String editar(@PathVariable Long id, Diarista diarista) {
-        repositoty.save(diarista);
-        return "redirect:/admin/diaristas";
+    public String editar(@PathVariable Long id, @Valid Diarista diarista, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/diaristas/form";
+        } else {
+            repositoty.save(diarista);
+            return "redirect:/admin/diaristas";
+        }
+        
     }
 
     @GetMapping("/{id}/excluir")
