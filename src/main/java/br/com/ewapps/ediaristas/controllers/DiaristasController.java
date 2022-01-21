@@ -17,6 +17,13 @@ public class DiaristasController {
     @Autowired
     private DiaristaRepositoty repositoty;
 
+    @GetMapping
+    public ModelAndView listar() {
+        var modelAndView = new ModelAndView("admin/diaristas/listar");
+        modelAndView.addObject("diaristas", repositoty.findAll());
+        return modelAndView;
+    }
+
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
         var modelAndView = new ModelAndView("admin/diaristas/form");
@@ -28,6 +35,6 @@ public class DiaristasController {
     @PostMapping("/cadastrar")
     public String cadstrar(Diarista diarista) {
         repositoty.save(diarista);
-        return "redirect:/admin/diaristas/cadastrar";
+        return "redirect:/admin/diaristas";
     }
 }
