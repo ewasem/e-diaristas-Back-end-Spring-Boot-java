@@ -97,4 +97,7 @@ public class Diarista {
     @Column(nullable = false)
     private String codigoIbge;
 
+    @Column(nullable = false)
+    private String foto;
+
 }
