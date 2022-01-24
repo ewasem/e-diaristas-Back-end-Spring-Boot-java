@@ -1,7 +1,6 @@
 package br.com.ewapps.ediaristas.controllers;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;

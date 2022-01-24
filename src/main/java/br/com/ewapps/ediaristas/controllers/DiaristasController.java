@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.ewapps.ediaristas.models.Diarista;
 import br.com.ewapps.ediaristas.repositories.DiaristaRepositoty;
 import br.com.ewapps.ediaristas.services.FileService;
+import br.com.ewapps.ediaristas.services.ViaCepService;
 
 @Controller
 @RequestMapping("/admin/diaristas")
@@ -29,10 +30,14 @@ public class DiaristasController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private ViaCepService viaCepService;
+
     @GetMapping
     public ModelAndView listar() {
         var modelAndView = new ModelAndView("admin/diaristas/listar");
         modelAndView.addObject("diaristas", repositoty.findAll());
+        
         return modelAndView;
     }
 
@@ -52,6 +57,11 @@ public class DiaristasController {
 
         var filename = fileService.salvar(imagem);
         diarista.setFoto(filename);
+
+        var cep = diarista.getCep();
+        var endereco = viaCepService.buscarEnderecoPorCep(cep);
+        var codigoIbge = endereco.getIbge();
+        diarista.setCodigoIbge(codigoIbge);
         repositoty.save(diarista);
         return "redirect:/admin/diaristas";
         
@@ -77,6 +87,10 @@ public class DiaristasController {
             var filename = fileService.salvar(imagem);
             diarista.setFoto(filename);
         }
+        var cep = diarista.getCep();
+        var endereco = viaCepService.buscarEnderecoPorCep(cep);
+        var codigoIbge = endereco.getIbge();
+        diarista.setCodigoIbge(codigoIbge);
         repositoty.save(diarista);
         return "redirect:/admin/diaristas";
         
