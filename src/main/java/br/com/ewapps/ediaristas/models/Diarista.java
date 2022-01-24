@@ -1,5 +1,11 @@
 package br.com.ewapps.ediaristas.models;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -16,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.ewapps.ediaristas.controllers.FileController;
 import br.com.ewapps.ediaristas.converters.CepConverter;
 import br.com.ewapps.ediaristas.converters.CpfConverter;
 import br.com.ewapps.ediaristas.converters.TelefoneConverter;
@@ -110,6 +117,18 @@ public class Diarista {
     private String codigoIbge;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String foto;
+
+
+    @JsonProperty("foto_usuario")
+    public String getFotoUrl() throws IOException {
+        return linkTo(methodOn(FileController.class).file(this.foto)).toString();
+    }
+
+    @JsonProperty("reputacao")
+    public Integer getReputação() {
+        return ThreadLocalRandom.current().nextInt(0, 6);
+    }
 
 }
